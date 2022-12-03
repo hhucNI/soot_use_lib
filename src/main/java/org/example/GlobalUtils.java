@@ -19,6 +19,7 @@ public class GlobalUtils {
 
     public static String jarFileName;
     public static String jarDir = "D:\\1javawork\\software_analysis_projs\\gson-2.2.4";
+    public static String jdkPath="D:\\java\\jdk1.8\\jre\\lib\\rt.jar";
 
     static {
         jarFileName=jarDir.substring(jarDir.lastIndexOf('\\')+1)+"_.dat";
@@ -31,7 +32,7 @@ public class GlobalUtils {
         Options.v().set_no_bodies_for_excluded(true);
         Options.v().set_whole_program(true);
         Options.v().set_allow_phantom_refs(true);
-        Scene.v().setSootClassPath("D:\\java\\jdk1.8\\jre\\lib\\rt.jar");//rt.jar的路径
+        Scene.v().setSootClassPath(jdkPath);//rt.jar的路径
     }
     public static Object readObjectFromFile(String filePath) {
         Object temp = null;
