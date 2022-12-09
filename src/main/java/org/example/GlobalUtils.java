@@ -166,7 +166,7 @@ public class GlobalUtils {
 //                                invokeExpr.getL
                                 List<String> Line=new ArrayList<>();
                                 Line.add(sc.getName());
-                                Line.add(method.getName());
+                                Line.add(method.getSignature());
                                 Line.add(lineNumber+"");
                                 Line.add(methodRef.toString());
                                 ret.add(Line);

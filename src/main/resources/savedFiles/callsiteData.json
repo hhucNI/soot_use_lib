@@ -1,13 +1,13 @@
 [
   [
     "org.example.Main",
-    "main",
+    "<org.example.Main: void main(java.lang.String[])>",
     "24",
     "<com.google.gson.Gson: void <init>()>"
   ],
   [
     "org.example.Main",
-    "main",
+    "<org.example.Main: void main(java.lang.String[])>",
     "26",
     "<com.google.gson.Gson: java.lang.String toJson(java.lang.Object)>"
   ]
