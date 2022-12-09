@@ -1,6 +1,5 @@
 package org.example;
 
-import jdk.nashorn.internal.objects.NativeString;
 import soot.*;
 import soot.jimple.InvokeExpr;
 import soot.jimple.toolkits.callgraph.Sources;
@@ -20,6 +19,9 @@ public class GlobalUtils {
     public static String jarFileName;
     public static String jarDir = "D:\\1javawork\\software_analysis_projs\\gson-2.2.4";
     public static String jdkPath="D:\\java\\jdk1.8\\jre\\lib\\rt.jar";
+
+
+
 
     static {
         jarFileName=jarDir.substring(jarDir.lastIndexOf('\\')+1)+"_.dat";
@@ -138,7 +140,44 @@ public class GlobalUtils {
             }
         }
     }
+    public static List<List<String>> getJsonOfCallsites(Set<SootClass> allClasses,Set<String> dependency){
+        List<List<String>> ret=new ArrayList<>();
+        for (SootClass sc : allClasses) {
+            List<SootMethod> methods = sc.getMethods();
+            for (SootMethod method : methods) {
+                if (!method.hasActiveBody()) continue;
 
+                Body activeBody = method.getActiveBody();
+                PatchingChain<Unit> units = activeBody.getUnits();
+                for (Unit unit : units) {
+                    List<ValueBox> useBoxes = unit.getUseBoxes();
+                    for (ValueBox useBox : useBoxes) {
+                        if (useBox.getValue() instanceof InvokeExpr) {
+                            InvokeExpr invokeExpr = (InvokeExpr) useBox.getValue();
+                            SootMethodRef methodRef = invokeExpr.getMethodRef();
+
+                            //过滤jre
+                            String classNamePart = methodRef.toString().split(":")[0];
+                            if (dependency.contains(methodRef.toString()) && classNamePart.indexOf("java")!=1) {
+                                //外部依赖匹配
+                                int lineNumber = unit.getJavaSourceStartLineNumber();
+
+//                                useBox.getJavaSourceStartLineNumber();
+//                                invokeExpr.getL
+                                List<String> Line=new ArrayList<>();
+                                Line.add(sc.getName());
+                                Line.add(method.getName());
+                                Line.add(lineNumber+"");
+                                Line.add(methodRef.toString());
+                                ret.add(Line);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ret;
+    }
     public static List<Map<String, List<String>>> matchedCallsite(SootClass sootClass, Set<String> dependency) {
         //需要一个method的集合
         List<Map<String, List<String>>> ret=new ArrayList<>();
@@ -168,7 +207,6 @@ public class GlobalUtils {
                             callsitesOfOneMethod.add(methodRef.toString());
                             //外部依赖匹配
                         }
-
                     }
                 }
             }
