@@ -18,7 +18,8 @@ import static soot.SootClass.SIGNATURES;
 
 public class TestLoadFile {
     public static void main(String[] args) throws IOException {
-        Object o = readObjectFromFile("D:\\1javawork\\software_analysis_projs\\soot_use_lib\\src\\main\\resources\\savedFiles\\structure.dat");
+//        Object o = readObjectFromFile("D:\\1javawork\\software_analysis_projs\\soot_use_lib\\src\\main\\resources\\savedFiles\\structure.dat");
+        Object o = readObjectFromFile(saveDir+File.separator+jarFileName);
         HashSet<String> structure = (HashSet<String>) o;
 //        for (String s : structure) {
 //            System.out.println(s);
