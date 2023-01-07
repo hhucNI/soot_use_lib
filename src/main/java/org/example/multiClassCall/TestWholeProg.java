@@ -20,9 +20,10 @@ public class TestWholeProg {
         initSootEnvironment();
 
         loadAllClassesRecursively(jarDir,SIGNATURES);
+        Chain<SootClass> JarClasses = Scene.v().getClasses();
+
         Scene.v().loadNecessaryClasses();
 
-        Chain<SootClass> JarClasses = Scene.v().getClasses();
         structure=getMethodSigSet(JarClasses);
         writeObjectToFile(structure,saveDir+ File.separator+jarFileName);
 

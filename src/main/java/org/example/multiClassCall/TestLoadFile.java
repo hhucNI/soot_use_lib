@@ -24,7 +24,12 @@ public class TestLoadFile {
 //        for (String s : structure) {
 //            System.out.println(s);
 //        }
-
+//<org.apache.poi.xssf.usermodel.XSSFWorkbook: org.apache.poi.xssf.usermodel.XSSFSheet createSheet(java.lang.String)>
+//        for (String s : structure) {
+//            if(s.lastIndexOf("createSheet")!=-1){
+//                System.out.println(s);
+//            }
+//        }
         Options.v().set_no_bodies_for_excluded(true);
         Options.v().set_whole_program(true);
         Options.v().set_allow_phantom_refs(true);
@@ -78,7 +83,8 @@ public class TestLoadFile {
 
         List<List<String>> jsonObj = getJsonOfCallsites(allClasses, structure);
         String s2 = JSON.toJSONString(jsonObj);
-        try (FileWriter writer = new FileWriter(new File(saveDir + File.separator +"callsiteData.json"))) {
+        String jarPrefix=jarDir.substring(jarDir.lastIndexOf('\\')+1);
+        try (FileWriter writer = new FileWriter(new File(saveDir + File.separator +"callsiteData_"+jarPrefix+"_.json"))) {
             writer.write(s2);
         } catch (IOException e) {
             // Handle the exception

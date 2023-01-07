@@ -14,10 +14,14 @@ import static soot.SootClass.SIGNATURES;
 
 public class GlobalUtils {
 
-    public static String ProjectDir="D:\\1javawork\\software_analysis_projs\\SeveralPackage\\target\\classes";
+//    public static String ProjectDir="D:\\1javawork\\software_analysis_projs\\SeveralPackage\\target\\classes";
+    public static String ProjectDir="D:\\1javawork\\software_analysis_projs\\forTest\\forTest\\target\\classes";
+
 
     public static String jarFileName;
-    public static String jarDir = "D:\\1javawork\\software_analysis_projs\\gson-2.2.4";
+//    public static String jarDir = "D:\\1javawork\\software_analysis_projs\\gson-2.2.4";
+    public static String jarDir = "D:\\1javawork\\software_analysis_projs\\poi-ooxml-4.1.2";
+
     public static String jdkPath="D:\\java\\jdk1.8\\jre\\lib\\rt.jar";
 
 
@@ -36,6 +40,8 @@ public class GlobalUtils {
         Options.v().set_allow_phantom_refs(true);
         Scene.v().setSootClassPath(jdkPath);//rt.jar的路径
     }
+//    public static Object readStrFromFile(String filePath)
+
     public static Object readObjectFromFile(String filePath) {
         Object temp = null;
         File file = new File(filePath);
@@ -145,9 +151,11 @@ public class GlobalUtils {
         for (SootClass sc : allClasses) {
             List<SootMethod> methods = sc.getMethods();
             for (SootMethod method : methods) {
-                if (!method.hasActiveBody()) continue;
-
-                Body activeBody = method.getActiveBody();
+//                Body body = method.getSource().getBody();
+//
+//                if (!method.hasActiveBody()) continue;
+                
+                Body activeBody = method.retrieveActiveBody();
                 PatchingChain<Unit> units = activeBody.getUnits();
                 for (Unit unit : units) {
                     List<ValueBox> useBoxes = unit.getUseBoxes();
@@ -158,7 +166,10 @@ public class GlobalUtils {
 
                             //过滤jre
                             String classNamePart = methodRef.toString().split(":")[0];
-                            if (dependency.contains(methodRef.toString()) && classNamePart.indexOf("java")!=1) {
+//                            TODO fix bug classNamePart.indexOf("java")!=1？ is that right
+
+                            String tt = methodRef.toString();
+                            if (dependency.contains(tt) && classNamePart.indexOf("java")!=1) {
                                 //外部依赖匹配
                                 int lineNumber = unit.getJavaSourceStartLineNumber();
 
